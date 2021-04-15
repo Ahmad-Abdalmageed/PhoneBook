@@ -7,6 +7,6 @@
 
 int FCountL(char FileName[]);
 void FAddL(char FileName[], char Line[]);
-void FdeleteL(char FileName, int line);
+void FeditL(char *FileName, int line, char* new_line);
 
 #endif //ASSIGNMENT2_FPROCESS_H

@@ -11,9 +11,12 @@
  *      4- Count Lines
  */
 
-
+// Imports
 #include "../Include/Fprocess.h"
 #include <stdio.h>
+
+// Macros
+#define BUFFER_SIZE 1024
 
 /*
  * Count the Number of lines
@@ -44,13 +47,32 @@ int FCountL(char FileName[]){
 void FAddL(char FileName[], char Line[]){
     FILE* fp;
     fp = fopen(FileName, "a");
-    fprintf(fp, "%s", Line);
+    fprintf(fp, "\n%s", Line);
     fclose(fp);
 }
 
 /*
  * Delete a Certain line in File
  */
-void FdeleteL(char FileName, int line){
+void FeditL(char *FileName, int line, char* new_line){
+    int count = 0;
+    char buffer[BUFFER_SIZE];
+    FILE *src, *temp;
 
+    src = fopen(FileName, "r");
+    temp = fopen("./temp.tmp", "w");
+
+    while (fgets(buffer, BUFFER_SIZE, src) != NULL){
+        if(line != count) fputs(buffer, temp);
+        else{
+            if(new_line) fputs(new_line, temp);
+        }
+        count++;
+    }
+
+    fclose(src);
+    fclose(temp);
+
+    remove(FileName);
+    rename("./temp.tmp", FileName);
 }
