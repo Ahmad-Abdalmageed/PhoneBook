@@ -9,14 +9,11 @@
  *      2- Deleting Lines
  *      3- Edit Lines
  *      4- Count Lines
+ *      5- Search Lines for Certain Word or Character
  */
 
 // Imports
 #include "../Include/Fprocess.h"
-#include <stdio.h>
-
-// Macros
-#define BUFFER_SIZE 1024
 
 /*
  * Count the Number of lines
@@ -52,9 +49,10 @@ void FAddL(char FileName[], char Line[]){
 }
 
 /*
- * Delete a Certain line in File
+ * Edit a Certain Line in File, if new_line is
+ * given it will replace the current line in file
  */
-void FeditL(char *FileName, int line, char* new_line){
+void FEditL(char *FileName, int line, char* new_line){
     int count = 0;
     char buffer[BUFFER_SIZE];
     FILE *src, *temp;
@@ -69,10 +67,32 @@ void FeditL(char *FileName, int line, char* new_line){
         }
         count++;
     }
-
     fclose(src);
     fclose(temp);
 
     remove(FileName);
     rename("./temp.tmp", FileName);
+}
+
+/*
+ * Finds a line within a file that contains
+ * a certain word or a character
+ */
+int FfindL(char* FileName, char* str){
+    FILE *ptr;
+    char line[BUFFER_SIZE], *lid;
+    int count = 0;
+    ptr = fopen(FileName, "r");
+
+    while (fgets(line, BUFFER_SIZE, ptr) != NULL) {
+        lid = strstr(line, str);
+        count++;
+        if(lid != NULL){
+            fclose(ptr);
+            return count ;
+        }
+    }
+    printf("Not Found");
+    fclose(ptr);
+    return -1;
 }
