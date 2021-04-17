@@ -15,6 +15,7 @@
 int FCountL(char FileName[]);
 void FAddL(char FileName[], char Line[]);
 void FEditL(char *FileName, int line, char* new_line);
-int FfindL(char* FileName, char* str);
+int FFindL(char* FileName, char* str);
+void FGetL(char * FileName, char* line, int idx);
 
 #endif //ASSIGNMENT2_FPROCESS_H

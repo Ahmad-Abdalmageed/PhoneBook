@@ -44,7 +44,7 @@ int FCountL(char FileName[]){
 void FAddL(char FileName[], char Line[]){
     FILE* fp;
     fp = fopen(FileName, "a");
-    fprintf(fp, "\n%s", Line);
+    fprintf(fp, "%s\n", Line);
     fclose(fp);
 }
 
@@ -78,7 +78,7 @@ void FEditL(char *FileName, int line, char* new_line){
  * Finds a line within a file that contains
  * a certain word or a character
  */
-int FfindL(char* FileName, char* str){
+int FFindL(char* FileName, char* str){
     FILE *ptr;
     char line[BUFFER_SIZE], *lid;
     int count = 0;
@@ -95,4 +95,18 @@ int FfindL(char* FileName, char* str){
     printf("Not Found");
     fclose(ptr);
     return -1;
+}
+
+void FGetL(char * FileName, char* line, int idx){
+    FILE *ptr = fopen(FileName, "r");
+    char Buffer[BUFFER_SIZE];
+    int count = 0;
+    if (FCountL(FileName) > idx) line = NULL;
+    while (fgets(Buffer, BUFFER_SIZE, ptr)){
+        if(count == idx){
+            strcpy(line, Buffer);
+        }
+        count++;
+    }
+    fclose(ptr);
 }
