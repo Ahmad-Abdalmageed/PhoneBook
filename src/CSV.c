@@ -60,7 +60,7 @@ void PrintLine(char* FileName, int line){
     while (fgets(Buffer, BUFFER_SIZE, ptr)){
         if (count == line){
             Tokenize(line_tok, Buffer, ",");
-            for(int i=0; i<=2; i++) printf("|%-10s", line_tok[i]);
+            for(int i=0; i<=2; i++) printf("|%-20s", line_tok[i]);
             printf("\n");
         }
         count++;
@@ -96,7 +96,7 @@ void AddInstance(char* FileName, BookInstance Entry){
 void DeleteInstance(char* FileName, char* instance){
     int line;
     line = FFindL(FileName, instance);
-    FEditL(FileName, line, NULL); // Null is passed to identify that this is a deletion process
+    FEditL(FileName, line-1, NULL); // Null is passed to identify that this is a deletion process
 }
 
 
@@ -105,11 +105,15 @@ void DeleteInstance(char* FileName, char* instance){
  */
 void EditInstance(char* FileName, char* instance, int field, char* edit){
     int idx;
-    char line[BUFFER_SIZE];
+    char line[BUFFER_SIZE] = "";
     char* tokens[3];
-    char new_line[BUFFER_SIZE];
+    char new_line[BUFFER_SIZE] = "";
 
-    idx = FFindL(FileName, instance);
+    idx = FFindL(FileName, instance) -1;
+    if(idx == -1){
+        printf("Instance NOT Found !");
+        return;
+    }
     FGetL(FileName, line, idx);
     Tokenize(tokens, line, ",");
     tokens[field] = edit;

@@ -101,7 +101,10 @@ void FGetL(char * FileName, char* line, int idx){
     FILE *ptr = fopen(FileName, "r");
     char Buffer[BUFFER_SIZE];
     int count = 0;
-    if (FCountL(FileName) > idx) line = NULL;
+    if (FCountL(FileName) < idx){
+        line = NULL;
+        return;
+    }
     while (fgets(Buffer, BUFFER_SIZE, ptr)){
         if(count == idx){
             strcpy(line, Buffer);

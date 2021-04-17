@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "Include/CSV.h"
-#include "Include/Fprocess.h"
 
 #define DATA "./Data.csv"
 
@@ -8,22 +7,17 @@ void PrintIntro();
 void CheckCommand(int command);
 
 int main(){
-/*    int command;
+    int command;
     PrintIntro();
     while (1){
         printf("Enter Command:");
         scanf("%d", &command);
-        if (command == 4) {
+        if (command == 6) {
             printf("Good Bye \n");
             break;
         }
         CheckCommand(command);
     }
-*/
-
-    char* line = "Abdo";
-    char x[] = "ASD";
-    EditInstance(DATA, line, 0, x);
 }
 
 void PrintIntro(){
@@ -37,7 +31,9 @@ void PrintIntro(){
     printf("1 - Add new Entry.\n");
     printf("2 - Delete old Entry(By name or By Phone).\n");
     printf("3 - Edit old Entry.\n");
-    printf("4 - Exit Program.\n");
+    printf("4 - Print Instance\n");
+    printf("5 - Show Commands\n");
+    printf("6 - Exit Program.\n");
 
     printf("\n");
     printf("Field Numbers are :\n");
@@ -83,6 +79,14 @@ void CheckCommand(int command){
             printf("Enter Edits: ");
             scanf("%s", temp_char);
             EditInstance(DATA, temp_str, temp_int, temp_char);
+            break;
+        case 4:
+            printf("Enter a Name or Phone: ");
+            scanf("%s", temp_char);
+            GetInstance(DATA, temp_char);
+            break;
+        case 5:
+            PrintIntro();
             break;
         default:
             printf("NO Such Command !!");
