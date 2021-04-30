@@ -8,14 +8,15 @@
 // Includes
 #include <stdio.h>
 #include <string.h>
+#include "Dtypes.h"
 
 // Macros
 #define BUFFER_SIZE 1024
 
-int FCountL(char FileName[]);
-void FAddL(char FileName[], char Line[]);
-void FEditL(char *FileName, int line, char* new_line);
-int FFindL(char* FileName, char* str);
-void FGetL(char * FileName, char* line, int idx);
+int32_t FCountL(const char_t FileName[]);
+void FAddL(const char_t FileName[], const char_t Line[]);
+void FEditL(const char_t *FileName, int32_t line, const char_t* new_line);
+int32_t FFindL(const char_t* FileName, const char_t* str);
+void FGetL(const char_t * FileName, char_t* line, int32_t idx);
 
 #endif //ASSIGNMENT2_FPROCESS_H

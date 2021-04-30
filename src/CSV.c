@@ -8,15 +8,14 @@
 #include "../Include/CSV.h"
 
 
-
 /*
  * Print the Whole CSV File
  * in a tabular format
  */
-void PrintFile(char* FileName){
+void PrintFile(char_t* FileName){
     FILE * ptr;
-    char buffer[BUFFER_SIZE];
-    char* fields;
+    char_t buffer[BUFFER_SIZE];
+    char_t* fields;
     ptr = fopen(FileName, "r");
 
     while(fgets(buffer, BUFFER_SIZE, ptr)){
@@ -35,9 +34,9 @@ void PrintFile(char* FileName){
  * Extract Tokens from String given using
  * a delimiter present in string.
  */
-void Tokenize(char * tokens[], char str[BUFFER_SIZE], char* del){
-    char* fields;
-    short count = 0;
+void Tokenize(char_t * tokens[], char_t str[BUFFER_SIZE], char_t* del){
+    char_t* fields;
+    int16_t count = 0;
     fields = strtok(str, del);
     while (fields != NULL){
         tokens[count] = fields;
@@ -49,11 +48,11 @@ void Tokenize(char * tokens[], char str[BUFFER_SIZE], char* del){
 /*
  * Print a certain line in csv file
  */
-void PrintLine(char* FileName, int line){
+void PrintLine(char_t* FileName, uint16_t line){
     FILE *ptr;
-    char Buffer[BUFFER_SIZE];
-    int count = 0;
-    char* line_tok[3];
+    char_t Buffer[BUFFER_SIZE];
+    uint16_t count = 0;
+    char_t* line_tok[3];
 
     ptr = fopen(FileName, "r");
 
@@ -71,20 +70,21 @@ void PrintLine(char* FileName, int line){
  *
  * Find given string
  */
-void GetInstance(char* FileName, char* instance){
-    int line;
-    line = FFindL(FileName, instance);
+void GetInstance(char_t* FileName, char_t* instance){
+    int32_t line;
+    line = (int32_t)FFindL(FileName, instance);
     if (line != -1){
         PrintLine(FileName, line-1);
     }
+    printf("NOT Found!!\n");
 }
 
 
 /*
  * Add to Database instance from user
  */
-void AddInstance(char* FileName, BookInstance Entry){
-    char line[BUFFER_SIZE];
+void AddInstance(char_t * FileName, BookInstance Entry){
+    char_t line[BUFFER_SIZE];
     sprintf(line, "%s,%s,%s", Entry.Name, Entry.Email, Entry.Phone);
     FAddL(FileName, line);
 }
@@ -93,8 +93,8 @@ void AddInstance(char* FileName, BookInstance Entry){
 /*
  * Delete a Certain Instance from Database file
  */
-void DeleteInstance(char* FileName, char* instance){
-    int line;
+void DeleteInstance(char_t * FileName, char_t * instance){
+    uint16_t line;
     line = FFindL(FileName, instance);
     FEditL(FileName, line-1, NULL); // Null is passed to identify that this is a deletion process
 }
@@ -103,11 +103,11 @@ void DeleteInstance(char* FileName, char* instance){
 /*
  * Edit a Certain instance in Data base
  */
-void EditInstance(char* FileName, char* instance, int field, char* edit){
-    int idx;
-    char line[BUFFER_SIZE] = "";
-    char* tokens[3];
-    char new_line[BUFFER_SIZE] = "";
+void EditInstance(char_t * FileName, char_t * instance, uint16_t field, char_t * edit){
+    int32_t idx;
+    char_t line[BUFFER_SIZE] = {};
+    char_t* tokens[3];
+    char_t new_line[BUFFER_SIZE] = "";
 
     idx = FFindL(FileName, instance) -1;
     if(idx == -1){
@@ -115,6 +115,8 @@ void EditInstance(char* FileName, char* instance, int field, char* edit){
         return;
     }
     FGetL(FileName, line, idx);
+    FILE * ptr = fopen(FileName, "r");
+    fclose(ptr);
     Tokenize(tokens, line, ",");
     tokens[field] = edit;
 

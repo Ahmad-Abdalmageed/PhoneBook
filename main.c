@@ -1,26 +1,30 @@
 #include <stdio.h>
 #include "Include/CSV.h"
+#include "Include/Dtypes.h"
 
 #define DATA "./Data.csv"
 
-void PrintIntro();
-void CheckCommand(int command);
+void PrintIntro(void);
+void CheckCommand(int16_t command);
+int32_t main(void);
 
-int main(){
-    int command;
+int32_t main(void){
+    int16_t command;
     PrintIntro();
     while (1){
         printf("Enter Command:");
-        scanf("%d", &command);
+        scanf("%hd", &command);
         if (command == 6) {
             printf("Good Bye \n");
             break;
         }
         CheckCommand(command);
     }
+
+    return 0;
 }
 
-void PrintIntro(){
+void PrintIntro(void){
     printf("*******************************************\n");
     printf("-----------------Phone Book----------------\n");
     printf("*******************************************\n");
@@ -46,12 +50,12 @@ void PrintIntro(){
 
 }
 
-void CheckCommand(int command){
-    struct BookInstance temp;
-    char temp_str[BUFFER_SIZE];
-    char temp_char[BUFFER_SIZE];
+void CheckCommand(int16_t command){
+    struct BookInstance temp = {};
+    char_t temp_str[BUFFER_SIZE] = {};
+    char_t temp_char[BUFFER_SIZE] = {};
+    int16_t temp_int = 0;
 
-    int temp_int;
     switch (command) {
         case 0:
             PrintFile(DATA);
@@ -75,7 +79,7 @@ void CheckCommand(int command){
             printf("Enter Name or Phone: ");
             scanf("%s", temp_str);
             printf("Enter Field Number: ");
-            scanf("%d", &temp_int);
+            scanf("%hd", &temp_int);
             printf("Enter Edits: ");
             scanf("%s", temp_char);
             EditInstance(DATA, temp_str, temp_int, temp_char);
@@ -90,5 +94,6 @@ void CheckCommand(int command){
             break;
         default:
             printf("NO Such Command !!");
+            break;
     }
 }

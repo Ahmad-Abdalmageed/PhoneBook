@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "Fprocess.h"
-
+#include "Dtypes.h"
 /*
  * Main Phone Book Data Structure
  */
@@ -25,10 +25,10 @@ typedef struct BookInstance{
 void PrintFile(char* FileName);
 void GetInstance(char* FileName, char* instance);
 void Tokenize(char * tokens[3], char* str, char* del);
-void PrintLine(char* FileName, int line);
+void PrintLine(char* FileName, uint16_t line);
 void AddInstance(char* FileName, BookInstance Entry);
 void DeleteInstance(char* FileName, char* instance);
-void EditInstance(char* FileName, char* instance, int field, char* edit);
+void EditInstance(char_t * FileName, char_t * instance, uint16_t field, char_t * edit);
 
 // MACROS
 #define BUFFER_SIZE 1024

@@ -19,8 +19,8 @@
  * Count the Number of lines
  * included in a text file
  */
-int FCountL(char FileName[]){
-    int count = 0, chr;
+int32_t FCountL(const char_t FileName[]){
+    int32_t count = 0, chr;
     FILE* fp;
 
     // Open File Selected and get the
@@ -31,7 +31,11 @@ int FCountL(char FileName[]){
     // Loop the whole file for
     // New lines and count
     while (chr  != EOF){
-        if (chr == '\n') count++;
+        if (chr == (int32_t)'\n'){
+            count++;
+        }else{
+            // Nothing To Do
+        }
         chr = getc(fp);
     }
     fclose(fp);
@@ -41,7 +45,7 @@ int FCountL(char FileName[]){
 /*
  * Append new Lines to Existing File
  */
-void FAddL(char FileName[], char Line[]){
+void FAddL(const char_t FileName[], const char_t Line[]){
     FILE* fp;
     fp = fopen(FileName, "a");
     fprintf(fp, "%s\n", Line);
@@ -52,18 +56,24 @@ void FAddL(char FileName[], char Line[]){
  * Edit a Certain Line in File, if new_line is
  * given it will replace the current line in file
  */
-void FEditL(char *FileName, int line, char* new_line){
-    int count = 0;
-    char buffer[BUFFER_SIZE];
+void FEditL(const char_t *FileName, int32_t line, const char_t* new_line){
+    int32_t count = 0;
+    char_t buffer[BUFFER_SIZE] = {};
     FILE *src, *temp;
 
     src = fopen(FileName, "r");
-    temp = fopen("./temp.tmp", "w");
+    temp = fopen("temp.tmp", "w");
 
     while (fgets(buffer, BUFFER_SIZE, src) != NULL){
-        if(line != count) fputs(buffer, temp);
+        if(line != count){
+            fputs(buffer, temp);
+        }
         else{
-            if(new_line) fputs(new_line, temp);
+            if(new_line){
+                fputs(new_line, temp);
+            }else{
+                // Do Nothing
+            }
         }
         count++;
     }
@@ -78,38 +88,44 @@ void FEditL(char *FileName, int line, char* new_line){
  * Finds a line within a file that contains
  * a certain word or a character
  */
-int FFindL(char* FileName, char* str){
+int32_t FFindL(const char_t* FileName, const char_t* str){
     FILE *ptr;
-    char line[BUFFER_SIZE], *lid;
-    int count = 0;
+    char_t line[BUFFER_SIZE] = {}, *LINE_FOUND;
+    int32_t count = 0;
     ptr = fopen(FileName, "r");
 
     while (fgets(line, BUFFER_SIZE, ptr) != NULL) {
-        lid = strstr(line, str);
+        LINE_FOUND = strstr(line, str);
         count++;
-        if(lid != NULL){
-            fclose(ptr);
-            return count ;
+        if(LINE_FOUND != NULL){
+            break;
         }
     }
-    printf("Not Found");
+    if(LINE_FOUND == NULL){
+        count = -1;
+    } else{
+        // Return Count
+    }
     fclose(ptr);
-    return -1;
+    return count;
 }
 
-void FGetL(char * FileName, char* line, int idx){
-    FILE *ptr = fopen(FileName, "r");
-    char Buffer[BUFFER_SIZE];
-    int count = 0;
-    if (FCountL(FileName) < idx){
-        line = NULL;
-        return;
-    }
-    while (fgets(Buffer, BUFFER_SIZE, ptr)){
-        if(count == idx){
-            strcpy(line, Buffer);
+void FGetL(const char_t * FileName, char_t* line, int32_t idx){
+    FILE *ptr;
+    char_t Buffer[BUFFER_SIZE] = {};
+    int32_t count = 0;
+
+    if(FCountL(FileName) > idx){
+        ptr = fopen(FileName, "r");
+        while (fgets(Buffer, BUFFER_SIZE, ptr)){
+            if(count == idx){
+                strcpy(line, Buffer);
+                break;
+            }
+            count++;
         }
-        count++;
+        fclose(ptr);
+    } else { // Index Needed is Out of Range
+        line = "\0";
     }
-    fclose(ptr);
 }
