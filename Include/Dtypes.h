@@ -21,4 +21,6 @@ typedef float float32_t;
 typedef double float64_t;
 typedef long double float128_t;
 
+#define NULL_CHAR ((char*) NULL)
+
 #endif //ASSIGNMENT2_DTYPES_H

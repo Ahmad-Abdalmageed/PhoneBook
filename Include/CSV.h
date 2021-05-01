@@ -22,13 +22,13 @@ typedef struct BookInstance{
 }BookInstance;
 
 // PROTOTYPES
-void PrintFile(char* FileName);
-void GetInstance(char* FileName, char* instance);
-void Tokenize(char * tokens[3], char* str, char* del);
-void PrintLine(char* FileName, uint16_t line);
-void AddInstance(char* FileName, BookInstance Entry);
-void DeleteInstance(char* FileName, char* instance);
-void EditInstance(char_t * FileName, char_t * instance, uint16_t field, char_t * edit);
+void PrintFile(const char* FileName);
+void GetInstance(const char* FileName, const char* instance);
+void Tokenize(char * tokens[3], char_t str[BUFFER_SIZE], const char* del);
+void PrintLine(const char* FileName, int32_t line);
+void AddInstance(const char* FileName, const BookInstance Entry);
+void DeleteInstance(const char* FileName, const char* instance);
+void EditInstance(const char_t * FileName, const char_t * instance, uint16_t field, char_t * edit);
 
 // MACROS
 #define BUFFER_SIZE 1024
